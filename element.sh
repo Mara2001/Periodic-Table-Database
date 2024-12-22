@@ -14,15 +14,15 @@ INPUT=$1
 if [[ $INPUT =~ [0-9]+ ]]
 then
   #echo "Number"
-  RESULT="$($PSQL "SELECT * FROM elements WHERE atomic_number=$INPUT;")"  
+  RESULT="$($PSQL "SELECT * FROM elements INNER JOIN properties USING (atomic_number) WHERE atomic_number=$INPUT;")"  
 # test zda je vztup znacka
 elif [[ ${#INPUT} -le 2 ]]
 then
   #echo "Symbol"
-  RESULT="$($PSQL "SELECT * FROM elements WHERE symbol='$INPUT';")"
+  RESULT="$($PSQL "SELECT * FROM elements INNER JOIN properties USING (atomic_number) WHERE symbol='$INPUT';")"
 # vstup musi byt nazev
 else
   #echo "Nazev"
-  RESULT="$($PSQL "SELECT * FROM elements WHERE name='$INPUT';")"
+  RESULT="$($PSQL "SELECT * FROM elements INNER JOIN properties USING (atomic_number) WHERE name='$INPUT';")"
 fi
 echo $RESULT
